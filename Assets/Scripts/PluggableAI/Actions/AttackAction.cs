@@ -3,7 +3,8 @@
 [CreateAssetMenu(menuName = "PluggableAI/Actions/Attack")]
 public class AttackAction : Action
 {
-
+	public AudioClip WarningSound;
+	
     public override void Act(StateController controller)
     {
 		Attack(controller);
@@ -20,7 +21,8 @@ public class AttackAction : Action
 		Debug.DrawRay(position, direction.normalized * attackRange, Color.red);
 
         if (Physics.SphereCast(position, radius, direction, out hit, attackRange) && hit.collider.CompareTag("Player"))
-		{
+		{	
+			
 			if (controller.CheckIfCountDownElapsed(controller.enemyStats.attackRate))
 			{
 				controller.tankShooting.Fire(controller.enemyStats.attackForce, controller.enemyStats.attackRate);

@@ -21,7 +21,7 @@ public class LookDecision : Decision
 		Debug.DrawRay(position, direction.normalized * lookRange, Color.green);
 
         if (Physics.SphereCast(position, radius, direction, out hit, lookRange) && hit.collider.CompareTag("Player"))
-        {
+        { 
 			controller.chaseTarget = hit.transform;
 			return true;
         }

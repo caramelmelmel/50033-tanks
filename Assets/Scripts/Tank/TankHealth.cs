@@ -14,8 +14,7 @@ public class TankHealth : MonoBehaviour
     private ParticleSystem m_ExplosionParticles;   
     public static float m_CurrentHealth;  
     private bool m_Dead;
-    public TankManager TankManagerStatus; 
-
+    
 
 
     private void Awake()
@@ -64,7 +63,13 @@ public class TankHealth : MonoBehaviour
         m_ExplosionAudio.Play();
         // louder explosion play
         // spawn more enemies 
+       
+        
         gameObject.SetActive(false);
+         if(gameObject.tag == "Enemy"){
+            print("Enemy got respawned");
+            gameObject.SetActive(true);
+         }
     }
 
 }

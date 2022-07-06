@@ -10,6 +10,7 @@ public class TankShooting : MonoBehaviour
     public AudioSource m_ShootingAudio;
     public AudioClip m_ChargingClip;
     public AudioClip m_FireClip;
+    public AudioSource EnemyWarning;
     public float m_MinLaunchForce = 15f;
     public float m_MaxLaunchForce = 30f;
     public float m_MaxChargeTime = 0.75f;
@@ -37,6 +38,7 @@ public class TankShooting : MonoBehaviour
     {
         m_FireButton = "Fire" + m_PlayerNumber;
         m_ChargeSpeed = (m_MaxLaunchForce - m_MinLaunchForce) / m_MaxChargeTime;
+        EnemyWarning=GetComponent<AudioSource>();
     }
 
 
@@ -88,6 +90,10 @@ public class TankShooting : MonoBehaviour
         }
         m_ShootingAudio.clip = m_FireClip;
         m_ShootingAudio.Play();
+        
+        if(gameObject.tag=="Enemy"){
+             EnemyWarning.Play();
+        }
 
         m_CurrentLaunchForce = m_MinLaunchForce;
     }
