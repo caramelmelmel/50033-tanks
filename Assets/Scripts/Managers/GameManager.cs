@@ -110,8 +110,13 @@ public class GameManager : MonoBehaviour
         m_RoundWinner = null;
 
         m_RoundWinner = GetRoundWinner();
-        if (m_RoundWinner != null){m_RoundWinner.m_Wins++;};
-
+        //give penalty to player who wins
+        if(m_RoundWinner.m_PlayerNumber == 1){
+            m_RoundWinner.m_Wins += 1;
+        }
+        else if (m_RoundWinner.m_PlayerNumber != 1){
+            m_RoundWinner.m_Wins -= 1;
+        }
 
         m_GameWinner = GetGameWinner();
 
@@ -143,6 +148,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < m_Tanks.Length; i++)
         {   
+
             if (m_Tanks[i].m_Instance.activeSelf)
                 return m_Tanks[i];
         }
@@ -166,17 +172,18 @@ public class GameManager : MonoBehaviour
     {
         var sb = new StringBuilder();
 
-        if (m_RoundWinner != null) sb.Append($"{m_RoundWinner.m_ColoredPlayerText} WINS THE ROUND!");
-        else sb.Append("DRAW!");
+        
+        if(m_RoundWinner.m_PlayerNumber==1){
+            sb.Append("You Won!");
+        }
+        else sb.Append("You died a terrible death get wrecked!");
 
         sb.Append("\n\n\n\n");
 
-        for (int i = 0; i < m_Tanks.Length; i++)
-        {
-            sb.AppendLine($"{m_Tanks[i].m_ColoredPlayerText}: {m_Tanks[i].m_Wins} WINS");
-        }
+        sb.AppendLine($"{m_Tanks[0].m_ColoredPlayerText}: {m_Tanks[0].m_Wins} WINS");
 
         if (m_GameWinner != null)
+        
             sb.Append($"{m_GameWinner.m_ColoredPlayerText} WINS THE GAME!");
 
         return sb.ToString();
