@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        print("starting");
         m_StartWait = new WaitForSeconds(m_StartDelay);
         m_EndWait = new WaitForSeconds(m_EndDelay);
 
@@ -40,6 +41,7 @@ public class GameManager : MonoBehaviour
     {
         m_Tanks[0].m_Instance =
             Instantiate(m_TankPrefabs[0], m_Tanks[0].m_SpawnPoint.position, m_Tanks[0].m_SpawnPoint.rotation) as GameObject;
+        // set player number as 1 for ownself
         m_Tanks[0].m_PlayerNumber = 1;
         m_Tanks[0].SetupPlayerTank();
 
@@ -48,6 +50,8 @@ public class GameManager : MonoBehaviour
             m_Tanks[i].m_Instance =
                 Instantiate(m_TankPrefabs[i], m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) as GameObject;
             m_Tanks[i].m_PlayerNumber = i + 1;
+            print("The AI tanks are here");
+            print(m_Tanks[i].m_PlayerNumber);
             m_Tanks[i].SetupAI(wayPointsForAI);
         }
     }
@@ -69,7 +73,7 @@ public class GameManager : MonoBehaviour
         yield return StartCoroutine(RoundStarting());
         yield return StartCoroutine(RoundPlaying());
         yield return StartCoroutine(RoundEnding());
-
+        print(m_Tanks);
         if (m_GameWinner != null) SceneManager.LoadScene(0);
         else StartCoroutine(GameLoop());
     }
@@ -106,7 +110,8 @@ public class GameManager : MonoBehaviour
         m_RoundWinner = null;
 
         m_RoundWinner = GetRoundWinner();
-        if (m_RoundWinner != null) m_RoundWinner.m_Wins++;
+        if (m_RoundWinner != null){m_RoundWinner.m_Wins++;};
+
 
         m_GameWinner = GetGameWinner();
 
@@ -123,7 +128,12 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < m_Tanks.Length; i++)
         {
-            if (m_Tanks[i].m_Instance.activeSelf) numTanksLeft++;
+            if (m_Tanks[i].m_Instance.activeSelf) {
+                numTanksLeft++;
+            }
+            else if (!m_Tanks[0].m_Instance.activeSelf){
+                return true;
+            }
         }
 
         return numTanksLeft <= 1;
@@ -132,7 +142,7 @@ public class GameManager : MonoBehaviour
     private TankManager GetRoundWinner()
     {
         for (int i = 0; i < m_Tanks.Length; i++)
-        {
+        {   
             if (m_Tanks[i].m_Instance.activeSelf)
                 return m_Tanks[i];
         }
@@ -189,4 +199,6 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < m_Tanks.Length; i++) m_Tanks[i].DisableControl();
     }
+
+    // spawn tanks
 }
