@@ -83,7 +83,7 @@ public class TankShooting : MonoBehaviour
         
         if(currentStoredDamage > storedDamage){
                 var diff = currentStoredDamage - storedDamage;
-                TankHealth.m_CurrentHealth += diff;
+                TankHealth.m_CurrentHealth += diff * 0.75f;
                 storedDamage = ShellExplosion.TotalHit;
         }
         m_ShootingAudio.clip = m_FireClip;
