@@ -20,6 +20,12 @@ public class TankShooting : MonoBehaviour
     private bool m_Fired;
     private float nextFireTime;
 
+    // add player number only
+    public float TankDamage;
+    public float storedDamage = 0.0f;
+    public float currentStoredDamage = 0.0f;
+
+
     private void OnEnable()
     {
         m_CurrentLaunchForce = m_MinLaunchForce;
@@ -73,7 +79,13 @@ public class TankShooting : MonoBehaviour
         Rigidbody shellInstance =
             Instantiate(m_Shell, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
         shellInstance.velocity = m_CurrentLaunchForce * m_FireTransform.forward;
-
+        currentStoredDamage = ShellExplosion.TotalHit;
+        
+        if(currentStoredDamage > storedDamage){
+                var diff = currentStoredDamage - storedDamage;
+                TankHealth.m_CurrentHealth += diff;
+                storedDamage = ShellExplosion.TotalHit;
+        }
         m_ShootingAudio.clip = m_FireClip;
         m_ShootingAudio.Play();
 

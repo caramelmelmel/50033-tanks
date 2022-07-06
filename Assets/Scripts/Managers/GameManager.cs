@@ -50,8 +50,6 @@ public class GameManager : MonoBehaviour
             m_Tanks[i].m_Instance =
                 Instantiate(m_TankPrefabs[i], m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) as GameObject;
             m_Tanks[i].m_PlayerNumber = i + 1;
-            print("The AI tanks are here");
-            print(m_Tanks[i].m_PlayerNumber);
             m_Tanks[i].SetupAI(wayPointsForAI);
         }
     }
@@ -183,7 +181,7 @@ public class GameManager : MonoBehaviour
         sb.AppendLine($"{m_Tanks[0].m_ColoredPlayerText}: {m_Tanks[0].m_Wins} WINS");
 
         if (m_GameWinner != null)
-        
+
             sb.Append($"{m_GameWinner.m_ColoredPlayerText} WINS THE GAME!");
 
         return sb.ToString();
@@ -207,5 +205,4 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < m_Tanks.Length; i++) m_Tanks[i].DisableControl();
     }
 
-    // spawn tanks
 }

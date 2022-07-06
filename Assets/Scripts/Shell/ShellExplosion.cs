@@ -9,20 +9,20 @@ public class ShellExplosion : MonoBehaviour
     public float m_MaxDamage = 100f;                  
     public float m_ExplosionForce = 1000f;            
     public float m_MaxLifeTime = 2f;                  
-    public float m_ExplosionRadius = 5f;              
-
+    public float m_ExplosionRadius = 5f;
+    public static float TotalHit = 0.0f;
 
     private void Start()
     {
         Destroy(gameObject, m_MaxLifeTime);
     }
 
-
+ 
     private void OnTriggerEnter(Collider other)
     {
         // Find all the tanks in an area around the shell and damage them.
         Collider[] colliders = Physics.OverlapSphere(transform.position, m_ExplosionRadius, m_TankMask);
-
+        
         for (int i = 0; i < colliders.Length; ++i)
         {
             var targetRigidbody = colliders[i].GetComponent<Rigidbody>();
@@ -34,6 +34,7 @@ public class ShellExplosion : MonoBehaviour
             if (targetHealth == null) continue;
 
             float damage = CalculateDamage(targetRigidbody.position);
+            TotalHit = damage;
             targetHealth.TakeDamage(damage);
         }
 
