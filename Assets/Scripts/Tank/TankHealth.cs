@@ -40,8 +40,12 @@ public class TankHealth : MonoBehaviour
         m_CurrentHealth -= amount;
 
         SetHealthUI();
-        if (m_CurrentHealth <= 0f && !m_Dead) OnDeath();
-    }
+        if (m_CurrentHealth <= 0f && !m_Dead){ 
+            OnDeath();
+            if(gameObject.tag == "Enemy"){
+                m_CurrentHealth = 100f;
+            }
+         }}
 
 
     private void SetHealthUI()
@@ -64,12 +68,14 @@ public class TankHealth : MonoBehaviour
         // louder explosion play
         // spawn more enemies 
        
-        
-        gameObject.SetActive(false);
-         if(gameObject.tag == "Enemy"){
-            print("Enemy got respawned");
+        if(gameObject.tag != "Enemy"){
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            gameObject.SetActive(false);
             gameObject.SetActive(true);
-         }
+        }
     }
 
 }
